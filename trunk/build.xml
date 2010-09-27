@@ -1,0 +1,47 @@
+<project name="spiral.universe.build" default="init" basedir=".">
+
+
+<property name="build.dir" value="${basedir}/.build"/>
+
+<target name="clean" description="clean temporary files">
+       <delete dir="${build.dir}" includeemptydirs="true" />
+    </target>
+
+
+
+<target name="jar.calendar" depends="clean">
+
+	
+
+    <copy todir="${build.dir}/gwt-calendar">
+      <fileset dir="src/"  />
+    </copy>
+
+    <javac
+      destdir="${build.dir}/gwt-calendar"
+      srcdir="${build.dir}/gwt-calendar"
+      debug="yes"
+      source="1.5"
+      target="1.5"
+    >
+      <classpath>
+        <fileset dir="lib">
+	      <include name="**/*.jar"/>
+	    </fileset>
+      </classpath>
+    </javac>
+
+    <copy todir="${build.dir}/gwt-calendar/com/spiral/jre">
+	  <fileset dir="super-source" />
+	</copy>
+
+    <jar
+      jarfile="${build.dir}/gwt-calendar.jar"
+      basedir="${build.dir}/gwt-calendar"
+      index="true"
+      update="true" >
+    </jar>
+  </target>
+
+
+</project>
