@@ -1,0 +1,12 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+The aim of gwt calendar is to provide a gwt jar that contains the java Calendar class.
+
+
+= Details =
+
+Download the jar and add the following line in your gwt.xml file:
+
+<inherits name='com.spiral.calendar'/>
