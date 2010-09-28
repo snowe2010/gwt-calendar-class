@@ -1,4 +1,4 @@
-<project name="spiral.universe.build" default="init" basedir=".">
+<project name="gwt-calendar-class" default="jar.calendar" basedir=".">
 
 
 <property name="build.dir" value="${basedir}/.build"/>
