@@ -8,7 +8,7 @@ The aim of gwt calendar is to provide a gwt jar that contains the java Calendar 
 
 Download the jar and add the following line in your gwt.xml file:
 
-<inherits name="com.spiral.calendar" />
+<inherits name='com.spiral.gwt-calendar' />
 
 *Warning:*
 
