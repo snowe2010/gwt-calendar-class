@@ -8,9 +8,9 @@ import com.google.gwt.i18n.client.TimeZone;
 /**
  * A wrapper around the java Date object so that accessors for year, month, date, hours, minutes, and day returns values
  * according to the given time zone.
- * 
+ *
  * @author jonathan
- * 
+ *
  */
 public class GWTCalendar implements DateConstants
 {
@@ -45,7 +45,7 @@ public class GWTCalendar implements DateConstants
 	/**
 	 * Allocates a date and initializes it so that it represents midnight, in the given time zone, at the beginning of
 	 * the day specified by the year, month, and date arguments.
-	 * 
+	 *
 	 * @param year
 	 *            the year minus 1900.
 	 * @param month
@@ -67,7 +67,7 @@ public class GWTCalendar implements DateConstants
 	/**
 	 * Allocates a date and initializes it so that it represents the instant at the start of the minute specified by the
 	 * year, month, date, hrs, and min arguments, in the given time zone.
-	 * 
+	 *
 	 * @param year
 	 *            the year minus 1900.
 	 * @param month
@@ -89,7 +89,7 @@ public class GWTCalendar implements DateConstants
 	/**
 	 * Allocates a date and initializes it so that it represents the instant at the start of the second specified by the
 	 * year, month, date, hrs, min, and sec arguments, in the given time zone.
-	 * 
+	 *
 	 * @param year
 	 *            the year minus 1900.
 	 * @param month
@@ -121,7 +121,7 @@ public class GWTCalendar implements DateConstants
 
 	/**
 	 * Allocates a date and initializes it to represent the same "number of milliseconds since epoch" as the given date.
-	 * 
+	 *
 	 * @param date
 	 *            the date which represents an instant in time since epoch
 	 */
@@ -134,7 +134,7 @@ public class GWTCalendar implements DateConstants
 	/**
 	 * Allocates a date and initializes it to represent the specified number of milliseconds since the standard base
 	 * time known as "the epoch", namely January 1, 1970, 00:00:00 GMT.
-	 * 
+	 *
 	 * @param millis
 	 *            the milliseconds since January 1, 1970, 00:00:00 GMT.
 	 */
@@ -193,7 +193,7 @@ public class GWTCalendar implements DateConstants
 
 	/**
 	 * Adjusts the calendar's time to the start, or 0:00.00.000, of it's current day.
-	 * 
+	 *
 	 * @param cal
 	 *            the calendar to adjust
 	 */
@@ -207,7 +207,7 @@ public class GWTCalendar implements DateConstants
 
 	/**
 	 * Adjusts the calendar's time to the end, or 23:59.59.999 of it's current day.
-	 * 
+	 *
 	 * @param cal
 	 *            the calendar to adjust
 	 */
@@ -339,7 +339,7 @@ public class GWTCalendar implements DateConstants
 	/**
 	 * Returns the date with respect to time zone. Thus, all accessors on this returned date will return month, date,
 	 * year, hours, minutes, seconds with respect to browser time zone.
-	 * 
+	 *
 	 * @return an equivalent Date in the browser's time zone.
 	 */
 	public Date getTime()
@@ -387,7 +387,7 @@ public class GWTCalendar implements DateConstants
 	private int getDay()
 	{
 		ensureDateCalculated();
-		
+
 			assert timeZone != null : "TimeZone must be set";
 
 			// TODO: See if this can be improved
@@ -421,7 +421,7 @@ public class GWTCalendar implements DateConstants
 				return 6;
 			}
 			throw new RuntimeException("Cannot convert day (" + day + ") into numerical day");
-		
+
 	}
 
 	public TimeZone getTimeZone()
@@ -469,7 +469,7 @@ public class GWTCalendar implements DateConstants
 		// We shall mutate it to respect the given time zone
 		Date d = new Date(year, month, date, hours, minutes, seconds);
 		d.setTime(d.getTime() + milliseconds);
-		
+
 
 		// Console.log("GWTDate createDate " + d);
 		int offsetConversion = d.getTimezoneOffset() - timeZone.getStandardOffset();
@@ -482,7 +482,7 @@ public class GWTCalendar implements DateConstants
 	@SuppressWarnings("deprecation")
 	public static Date revertDate(Date date, TimeZone timeZone)
 	{
-		
+
 		int offsetConversion = date.getTimezoneOffset() - timeZone.getStandardOffset();
 		long newTime = date.getTime() - (offsetConversion + timeZone.getDaylightAdjustment(date)) * 60000;
 		Date newDate = new Date(newTime);
