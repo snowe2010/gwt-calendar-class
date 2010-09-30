@@ -7,6 +7,7 @@ public class TimeZone {
 
 	 public static final int LONG = 1;
 
+	 private static GwtZoneInfoProvider gwtZoneInfoProvider = new GwtZoneInfoProvider();
 	 private com.google.gwt.i18n.client.TimeZone timeZone;
 
 	 public TimeZone()
@@ -17,13 +18,15 @@ public class TimeZone {
 
 	 public static String[] getAvailableIDs()
 	 {
-		 //TODO, fix
-		 return null;
+		 return (String[]) gwtZoneInfoProvider.getAvailableIDs().toArray(new String[gwtZoneInfoProvider.getAvailableIDs().size()]);
 	 }
 
 	 public static String[] getAvailableIDs(int rawOffset)
 	 {
-		 //TODO, fix
+		 String[] ids = getAvailableIDs();
+		 List<String> idsToReturn = new ArrayList<String>();
+
+
 		 return null;
 	 }
 
@@ -35,6 +38,7 @@ public class TimeZone {
 
 	 String getDisplayName()
 	 {
+		 //TODO, fix
 		return null;
 	 }
 
