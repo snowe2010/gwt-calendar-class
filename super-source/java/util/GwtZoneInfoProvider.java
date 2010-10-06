@@ -15,7 +15,7 @@ import com.google.gwt.i18n.client.constants.TimeZoneConstants;
 class GwtZoneInfoProvider {
 
     private TimeZoneConstants timeZoneConstants;
-    private Map<String,com.google.gwt.i18n.client.TimeZone> map = new HashMap<String,com.google.gwt.i18n.client.TimeZone>();
+    private Map<String,TimeZoneContainer> map = new HashMap<String,TimeZoneContainer>();
 
     private static GwtZoneInfoProvider singleton;
 
@@ -36,8 +36,9 @@ class GwtZoneInfoProvider {
 
         for(int i = -14; i < 13; i++ )
         {
-        	String sign = i < 0 ? "-" : "+";
-        	map.put("Etc/GMT" + sign + i,TimeZone.createTimeZone(i * 60));
+        	String sign = i < 0 ? "" : "+";
+        	String name = "Etc/GMT" + sign + i;
+        	map.put(name,new TimeZoneContainer(name, null, TimeZone.createTimeZone(i * 60)));
         }
 
         add(timeZoneConstants.atlanticCanary());
@@ -429,8 +430,9 @@ class GwtZoneInfoProvider {
 
     private void add(String string) {
 
-        TimeZone timeZone = TimeZone.createTimeZone(TimeZoneInfo.buildTimeZoneData(string));
-        map.put(timeZone.getID(),timeZone);
+    	TimeZoneInfo tzi = TimeZoneInfo.buildTimeZoneData(string);
+        TimeZone timeZone = TimeZone.createTimeZone(tzi);
+        map.put(timeZone.getID(),new TimeZoneContainer( null, tzi, timeZone));
     }
 
     public Set<String> getAvailableIDs() {
@@ -439,7 +441,12 @@ class GwtZoneInfoProvider {
 
     public TimeZone getZone(String id) {
 
-        return map.get(id);
+        return map.get(id).getTimeZone();
+    }
+
+    public TimeZoneContainer getTimeZoneContainer(String id)
+    {
+    	return map.get(id);
     }
 
     public TimeZoneConstants getTimeZoneConstants(){
