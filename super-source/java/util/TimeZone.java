@@ -1,5 +1,7 @@
 package java.util;
 
+import com.google.gwt.core.client.JsArrayInteger;
+
 public class TimeZone {
 
 
@@ -136,6 +138,7 @@ public class TimeZone {
 		 return new TimeZone(gwtZoneInfoProvider.getTimeZoneContainer(ID));
 	 }
 
+	 //TODO, test
 	 public boolean hasSameRules(TimeZone other)
 	 {
 		 //if the standard offsets match
@@ -144,8 +147,20 @@ public class TimeZone {
 			 //if they have the same transition size
 			 if( timeZoneContainer.getTimeZoneInfo() != null || timeZoneContainer.getTimeZoneInfo().getTransitions().length() != 0)
 			 {
+				 JsArrayInteger transitions = timeZoneContainer.getTimeZoneInfo().getTransitions();
+				 JsArrayInteger otherTransitions =  other.timeZoneContainer.getTimeZoneInfo().getTransitions();
+				 if( transitions.length() == otherTransitions.length())
+				 {
+					 for( int i = 0; i < transitions.length(); i++)
+					 {
+						 if( transitions.get(i) != otherTransitions.get(i))
+						 {
+							 return false;
+						 }
+					 }
 
-				 //TODO, test if the transitions match, if they do, return true
+					 return true;
+				 }
 
 			 }
 			 else
