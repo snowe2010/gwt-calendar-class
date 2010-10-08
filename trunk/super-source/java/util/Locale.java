@@ -46,6 +46,8 @@ public class Locale {
 
 	public static final Locale US;
 
+	public static Locale defaultLocale;
+
 
 	static{
 
@@ -139,7 +141,71 @@ public class Locale {
 		return null;
 	}
 
-	//TODO, finish method creation
+	public String getDisplayName()
+	{
+		//TODO, fix
+		return null;
+	}
+
+	public String getDisplayName(Locale inLocale)
+	{
+		//TODO, fix
+		return null;
+	}
+
+	public String getDisplayVariant()
+	{
+		//TODO, fix
+		return null;
+	}
+
+	public String getDisplayVariant(Locale inLocale)
+	{
+		//TODO, fix
+		return null;
+	}
+
+	public String getISO3Country()
+	{
+		//TODO, fix
+		return null;
+	}
+
+	public String getISO3Language()
+	{
+		//TODO, fix
+		return null;
+	}
+
+	public static String[] getISOCountries()
+	{
+		//TODO, fix
+		return null;
+	}
+
+	public static String[] getISOLanguages()
+	{
+		//TODO, fix
+		return null;
+	}
+
+	public String getLanguage()
+	{
+		//TODO, fix
+		return null;
+	}
+
+	public String getVariant()
+	{
+		//TODO, fix
+		return null;
+	}
+
+	public static void setDefault(Locale newLocale)
+	{
+		defaultLocale = newLocale;
+	}
+
 
 
 }
