@@ -8,7 +8,7 @@ public class TimeZone {
 	 public static final int LONG = 1;
 
 	 private static GwtZoneInfoProvider gwtZoneInfoProvider = new GwtZoneInfoProvider();
-	 private TimeZoneContainer timeZoneContainer;
+	 protected TimeZoneContainer timeZoneContainer;
 
 	 private static TimeZone defaultTimeZone;
 
@@ -74,18 +74,34 @@ public class TimeZone {
 		 return null;
 	 }
 
-	 //TODO, locale issues... no bueno!
-	 //public String getDisplayname(boolean daylight, int style, Locale locale)
-	 //{
+	 public String getDisplayname(boolean daylight, int style, Locale locale)
+	{
 		 //TODO, fix
-//		 return null;
-//	 }
+		 return null;
+	 }
 
+	 //returns the time in milliseconds if it's a DST time
 	 public int getDSTSavings()
 	 {
+		 if(timeZoneContainer.getTimeZoneInfo() == null || timeZoneContainer.getTimeZoneInfo().getTransitions().length() == 0)
+		 {
+			 return 0;
+		 }
 
-		 //TODO, fix
-		 return 0;
+		 int transitionInMinutes = timeZoneContainer.getTimeZoneInfo().getTransitions().get(1);
+
+		 if( transitionInMinutes == 0)
+		 {
+			 transitionInMinutes = timeZoneContainer.getTimeZoneInfo().getTransitions().get(3);
+		 }
+
+		 if( transitionInMinutes < 0 )
+		 {
+			 transitionInMinutes = Math.abs(transitionInMinutes);
+		 }
+
+		 return transitionInMinutes * 60000;
+
 	 }
 
 	 public String getID()
@@ -106,7 +122,26 @@ public class TimeZone {
 
 	 public boolean hasSameRules(TimeZone other)
 	 {
-		 //TODO, fix
+		 //if the standard offsets match
+		 if( timeZoneContainer.getTimeZone().getStandardOffset() == other.timeZoneContainer.getTimeZone().getStandardOffset())
+		 {
+			 //if they have the same transition size
+			 if( timeZoneContainer.getTimeZoneInfo() != null || timeZoneContainer.getTimeZoneInfo().getTransitions().length() == 0)
+			 {
+
+				//TODO, test if the transitions match, if they do, return true
+			 }
+			 else
+			 {
+				 //if the timezone has no transitions and the other timezone doesn't have transitions as well, set it to true
+				 if( other.timeZoneContainer.getTimeZoneInfo() == null || other.timeZoneContainer.getTimeZoneInfo().getTransitions().length() == 0 )
+				 {
+					 return true;
+				 }
+			 }
+
+		 }
+
 		 return false;
 	 }
 
