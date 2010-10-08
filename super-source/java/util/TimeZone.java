@@ -144,10 +144,11 @@ public class TimeZone {
 		 if( timeZoneContainer.getTimeZone().getStandardOffset() == other.timeZoneContainer.getTimeZone().getStandardOffset())
 		 {
 			 //if they have the same transition size
-			 if( timeZoneContainer.getTimeZoneInfo() != null || timeZoneContainer.getTimeZoneInfo().getTransitions().length() == 0)
+			 if( timeZoneContainer.getTimeZoneInfo() != null || timeZoneContainer.getTimeZoneInfo().getTransitions().length() != 0)
 			 {
 
-				//TODO, test if the transitions match, if they do, return true
+				 //TODO, test if the transitions match, if they do, return true
+
 			 }
 			 else
 			 {
