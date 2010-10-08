@@ -70,8 +70,26 @@ public class TimeZone {
 	 public String getDisplayName(boolean daylight, int style)
 	 {
 
-		 //TODO, fix
-		 return null;
+		 int place = 0;
+		 if(getDSTSavings() > 0 && daylight == true && timeZoneContainer.getTimeZoneInfo().getNames().length() > 2)
+		 {
+			 place = 2;
+		 }
+
+		 if(style == LONG)
+		 {
+			 place++;
+		 }
+		 else
+		 {
+			 if( style != SHORT)
+			 {
+				 throw new RuntimeException("style value is not supported");
+			 }
+		 }
+
+
+		 return timeZoneContainer.getTimeZoneInfo().getNames().get(place);
 	 }
 
 	 public String getDisplayname(boolean daylight, int style, Locale locale)
