@@ -30,15 +30,13 @@ public class TimeZone {
 
 	 public static String[] getAvailableIDs(int rawOffset)
 	 {
-		 int minuteOffset = rawOffset / 3600000;
+		 int minuteOffset = rawOffset / 60000 * -1;
 		 String[] ids = getAvailableIDs();
 		 List<String> idsToReturn = new ArrayList<String>();
 
 		 for( String id : ids)
 		 {
 			 TimeZoneContainer tzc = gwtZoneInfoProvider.getTimeZoneContainer(id);
-
-			 //TODO, test
 			 if( tzc.getTimeZone().getStandardOffset()== minuteOffset )
 			 {
 				 idsToReturn.add(id);
