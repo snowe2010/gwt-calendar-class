@@ -10,9 +10,11 @@ public class TimeZone {
 	 public static final int LONG = 1;
 
 	 private static GwtZoneInfoProvider gwtZoneInfoProvider = new GwtZoneInfoProvider();
-	 protected TimeZoneContainer timeZoneContainer;
 
 	 private static TimeZone defaultTimeZone;
+
+	 protected TimeZoneContainer timeZoneContainer;
+
 
 	 private TimeZone(TimeZoneContainer timeZoneContainer)
 	 {
@@ -21,11 +23,23 @@ public class TimeZone {
 
 	 public TimeZone()
 	 {
-		 //TODO, fix this
-		 timeZoneContainer = new TimeZoneContainer(null, null, com.google.gwt.i18n.client.TimeZone.createTimeZone((new Date()).getTimezoneOffset()));
+		 if( defaultTimeZone == null )
+		 {
+			 getDefaultTimeZone();
+		 }
+
+		 timeZoneContainer = defaultTimeZone.timeZoneContainer.copy();
+
 	 }
 
-	 public static String[] getAvailableIDs()
+	 private static TimeZone getDefaultTimeZone() {
+
+			// TODO fix this
+		 return new TimeZone(new TimeZoneContainer(null, null, com.google.gwt.i18n.client.TimeZone.createTimeZone((new Date()).getTimezoneOffset()), null));
+
+	}
+
+	public static String[] getAvailableIDs()
 	 {
 		 return (String[]) gwtZoneInfoProvider.getAvailableIDs().toArray(new String[gwtZoneInfoProvider.getAvailableIDs().size()]);
 	 }
@@ -51,8 +65,12 @@ public class TimeZone {
 
 	 public static TimeZone getDefault()
 	 {
-		 //TODO, fix
-		 return null;
+		 if(defaultTimeZone == null)
+		 {
+			 defaultTimeZone = getDefaultTimeZone();
+		 }
+
+		 return defaultTimeZone.copy();
 	 }
 
 	 public String getDisplayName()
@@ -138,7 +156,6 @@ public class TimeZone {
 		 return new TimeZone(gwtZoneInfoProvider.getTimeZoneContainer(ID));
 	 }
 
-	 //TODO, test
 	 public boolean hasSameRules(TimeZone other)
 	 {
 		 //if the standard offsets match
@@ -185,6 +202,12 @@ public class TimeZone {
 	 public void setID(String ID)
 	 {
 		 timeZoneContainer.setId(ID);
+	 }
+
+	 //method is named copy since clone isn't supported yet, hopefully this will change
+	 private TimeZone copy()
+	 {
+		 return new TimeZone(timeZoneContainer.copy());
 	 }
 
 

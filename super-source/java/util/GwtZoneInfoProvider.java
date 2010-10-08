@@ -38,7 +38,7 @@ class GwtZoneInfoProvider {
         {
         	String sign = i < 0 ? "" : "+";
         	String name = "Etc/GMT" + sign + i;
-        	map.put(name,new TimeZoneContainer(name, null, TimeZone.createTimeZone(i * 60)));
+        	map.put(name,new TimeZoneContainer(name, null, TimeZone.createTimeZone(i * 60), null));
         }
 
         add(timeZoneConstants.atlanticCanary());
@@ -432,7 +432,7 @@ class GwtZoneInfoProvider {
 
     	TimeZoneInfo tzi = TimeZoneInfo.buildTimeZoneData(string);
         TimeZone timeZone = TimeZone.createTimeZone(tzi);
-        map.put(timeZone.getID(),new TimeZoneContainer( null, tzi, timeZone));
+        map.put(timeZone.getID(),new TimeZoneContainer( null, tzi, timeZone, string));
     }
 
     public Set<String> getAvailableIDs() {
