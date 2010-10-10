@@ -1,6 +1,8 @@
 package java.util;
 
 import com.google.gwt.core.client.JsArrayInteger;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.datepicker.client.CalendarUtil;
 
 public class TimeZone {
 
@@ -34,7 +36,61 @@ public class TimeZone {
 
 	 private static TimeZone getDefaultTimeZone() {
 
-			// TODO fix this
+		 //int offset = new Date().getTimezoneOffset() * -1000;
+
+		 //String[] possibleValues = getAvailableIDs(offset);
+
+		 List<TimeZone> possibleTimeZones = new ArrayList<TimeZone>();
+		 int offset = new Date().getTimezoneOffset();
+		 //Window.alert("offset is: " + offset);
+		 for( String value : getAvailableIDs())
+		 {
+			 TimeZone tz = TimeZone.getTimeZone(value);
+			if( tz.getOffset(new Date().getTime()) == offset)
+			{
+				boolean isValid = true;
+				for(int i = 1; i < 366; i++)
+				{
+					Date d = new Date();
+					CalendarUtil.addDaysToDate(d,i);
+					int tzOffset = d.getTimezoneOffset();
+					if(tzOffset != tz.getOffset(d.getTime()))
+					{
+						isValid = false;
+						break;
+					}
+				}
+
+				if( isValid)
+				{
+
+					//Give priority to NY TZ for now, use googles geolocation later
+					if(tz.getID().equals("America/New_York"))
+					{
+						return tz;
+					}
+					//else if(tz.getID().equals("America/New_York"))
+
+					possibleTimeZones.add(tz);
+					//Window.alert(value);
+				}
+
+				//default case
+				if(possibleTimeZones.size() == 0)
+				{
+					return getTimeZone("Etc/GMT+0");
+				}
+
+
+
+				return possibleTimeZones.get(0);
+
+			}
+
+			 //Window.alert(value);
+		 }
+
+
 		 return new TimeZone(new TimeZoneContainer(null, null, com.google.gwt.i18n.client.TimeZone.createTimeZone((new Date()).getTimezoneOffset()), null));
 
 	}

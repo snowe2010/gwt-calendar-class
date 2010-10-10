@@ -1,4 +1,4 @@
-package com.spiral.calendar;
+package java.util;
 
 import java.util.Date;
 
