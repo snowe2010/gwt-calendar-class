@@ -25,7 +25,7 @@ public class TimeZone {
 	 {
 		 if( defaultTimeZone == null )
 		 {
-			 getDefaultTimeZone();
+			 defaultTimeZone = getDefaultTimeZone();
 		 }
 
 		 timeZoneContainer = defaultTimeZone.timeZoneContainer.copy();
