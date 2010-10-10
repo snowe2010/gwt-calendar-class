@@ -107,26 +107,23 @@ public class Calendar implements DateConstants
 	{
 		if( when instanceof Calendar)
 		{
-			return after(((Calendar)when).getTime());
+			ensureDateCalculated();
+			return calculatedDate.after(((Calendar)when).getTime());
+
 		}
 
-		throw new RuntimeException("unsupported object passed in");
+		return false;
 	}
 
-	public boolean after(Calendar when)
-	{
-		return after(when.getTime());
-	}
-
-	public boolean after(Date when)
-	{
-		ensureDateCalculated();
-		return calculatedDate.after(when);
-	}
 
 	public boolean before(Object when)
 	{
-		//TODO, fix
+		if( when instanceof Calendar )
+		{
+			ensureDateCalculated();
+			return calculatedDate.before(((Calendar)when).getTime());
+		}
+
 		return false;
 	}
 
@@ -159,13 +156,41 @@ public class Calendar implements DateConstants
 	{
 		switch (field)
 		{
+			case ERA:
+
+				//TODO, do something here
+
 			case YEAR:
 				ensureDateCalculated();
 				return localDateTime.year;
 
+
 			case MONTH:
 				ensureDateCalculated();
 				return localDateTime.month;
+
+			case WEEK_OF_YEAR:
+				//TODO, fix
+
+			case WEEK_OF_MONTH:
+				//TODO, fix
+
+
+			case DATE:
+				ensureDateCalculated();
+				return localDateTime.date;
+
+
+			case DAY_OF_YEAR:
+
+				//TODO, fix
+
+			case DAY_OF_WEEK:
+				return getDay();
+
+			case DAY_OF_WEEK_IN_MONTH:
+
+				//TODO, fix
 
 			case HOUR:
 				ensureDateCalculated();
@@ -175,12 +200,7 @@ public class Calendar implements DateConstants
 				ensureDateCalculated();
 				return localDateTime.hours;
 
-			case DATE:
-				ensureDateCalculated();
-				return localDateTime.date;
 
-			case DAY_OF_WEEK:
-				return getDay();
 
 			case MINUTE:
 				ensureDateCalculated();
@@ -190,6 +210,16 @@ public class Calendar implements DateConstants
 				ensureDateCalculated();
 				return localDateTime.seconds;
 
+			case MILLISECOND:
+				//TODO, fix
+
+			case ZONE_OFFSET:
+				//TODO, fix
+			case DST_OFFSET:
+				//TODO, fix
+			case FIELD_COUNT:
+				//TODO, fix
+
 			default:
 				throw new RuntimeException("Field isn't supported yet, or bad value passed in");
 		}
@@ -197,8 +227,36 @@ public class Calendar implements DateConstants
 
 	public int getActualMaximum(int field)
 	{
-		//TODO, fix
-		return 0;
+		switch(field)
+		{
+			case ERA: return 1;
+			case YEAR: return 292278993;
+			case MONTH: return 11;
+			case WEEK_OF_YEAR: return 52;
+			case WEEK_OF_MONTH: return 6;
+			case DATE: return 31;
+			case DAY_OF_YEAR: return 365;
+			case DAY_OF_WEEK: return 7;
+			case DAY_OF_WEEK_IN_MONTH: return 5;
+			case AM_PM: return PM;
+
+			case HOUR: return 11;
+			case HOUR_OF_DAY: return 23;
+
+			case MINUTE: return 59;
+
+			case SECOND: return 59;
+
+			case MILLISECOND: return 999;
+
+			case ZONE_OFFSET: return 50400000;
+
+			case DST_OFFSET: return 7200000;
+
+		}
+
+		//Mimicking the jvm
+		throw new ArrayIndexOutOfBoundsException();
 	}
 
 	public int getActualMinimum(int field)
@@ -454,46 +512,6 @@ public class Calendar implements DateConstants
 	}
 
 
-	/**
-	 * Adjusts the calendar's time to the start, or 0:00.00.000, of it's current day.
-	 *
-	 * @param cal
-	 *            the calendar to adjust
-	 */
-	public void adjustToStartOfDay()
-	{
-		set(Calendar.HOUR, 0);
-		set(Calendar.MINUTE, 0);
-		set(Calendar.SECOND, 0);
-		set(Calendar.MILLISECOND, 0);
-	}
-
-	/**
-	 * Adjusts the calendar's time to the end, or 23:59.59.999 of it's current day.
-	 *
-	 * @param cal
-	 *            the calendar to adjust
-	 */
-	public void adjustToEndOfDay()
-	{
-		set(Calendar.HOUR, 23);
-		set(Calendar.MINUTE, 59);
-		set(Calendar.SECOND, 59);
-		set(Calendar.MILLISECOND, 999);
-	}
-
-
-
-	public boolean before(Calendar when)
-	{
-		return before(when.getTime());
-	}
-
-	public boolean before(Date when)
-	{
-		ensureDateCalculated();
-		return calculatedDate.before(when);
-	}
 
 
 
@@ -544,8 +562,13 @@ public class Calendar implements DateConstants
 	@Override
 	public boolean equals(Object obj)
 	{
-		ensureDateCalculated();
-		return calculatedDate.equals(obj);
+		if( obj instanceof Calendar)
+		{
+			ensureDateCalculated();
+			return calculatedDate.equals(((Calendar)obj).getTime());
+		}
+
+		return false;
 	}
 
 	@Override
@@ -572,14 +595,5 @@ public class Calendar implements DateConstants
 		return d;
 	}
 
-	// TODO: SEE WHY WE NEED THIS
-	@SuppressWarnings("deprecation")
-	public static Date revertDate(Date date, TimeZone timeZone)
-	{
 
-		int offsetConversion = date.getTimezoneOffset() - timeZone.timeZoneContainer.getTimeZone().getStandardOffset();
-		long newTime = date.getTime() - (offsetConversion + timeZone.timeZoneContainer.getTimeZone().getDaylightAdjustment(date)) * 60000;
-		Date newDate = new Date(newTime);
-		return newDate;
-	}
 }
