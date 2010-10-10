@@ -27,10 +27,6 @@ class LocalDateTime
 
 	int milliseconds;
 
-	public Date atZone(TimeZone zone)
-	{
-		return new GWTCalendar(year, month, date, hours, minutes, seconds, zone).getTime();
-	}
 
 	@Override
 	public String toString()

@@ -2,15 +2,20 @@ package com.spiral.calendar;
 
 public interface DateConstants
 {
-	int SECONDS_PER_HOUR = 3600;
-
-	int HOURS_IN_DAY = 24;
-
-	int MILLISECONDS_FOR_A_DAY = HOURS_IN_DAY * SECONDS_PER_HOUR * 1000;
-
-	int WEEK = 7;
 
 	// taken from the Calendar class, this is to ensure consistency
+	
+	public static final int ALL_STYLES = 0;
+	
+	public static final int SHORT = 1;
+	
+	public static final int LONG = 2;
+	
+	
+	 public static final int AM = 0;
+	 
+	 public static final int PM = 1;
+	
 	public final static int SUNDAY = 1;
 
 	public final static int MONDAY = 2;
@@ -29,6 +34,28 @@ public interface DateConstants
 	public static final int JANUARY = 0;
 
 	public static final int FEBRUARY = 1;
+	
+	public static final int MARCH = 2;
+	
+	public static final int APRIL = 3;
+	
+	public static final int MAY = 4;
+	
+	public static final int JUNE = 5;
+	
+	public static final int JULY = 6;
+	
+	public static final int AUGUST = 7;
+	  
+	public static final int SEPTEMBER = 8;
+	
+	public static final int OCTOBER = 9;
+	
+	public static final int NOVEMBER = 10;
+	
+	public static final int DECEMBER = 11;
+	
+	public static final int UNDECIMBER = 12;
 
 	// time periods
 
