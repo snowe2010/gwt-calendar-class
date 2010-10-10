@@ -261,8 +261,36 @@ public class Calendar implements DateConstants
 
 	public int getActualMinimum(int field)
 	{
-		//TODO, fix
-		return 0;
+		switch(field)
+		{
+			case ERA: return 0;
+			case YEAR: return 1;
+			case MONTH: return 0;
+			case WEEK_OF_YEAR: return 1;
+			case WEEK_OF_MONTH: return 0;
+			case DATE: return 1;
+			case DAY_OF_YEAR: return 1;
+			case DAY_OF_WEEK: return 1;
+			case DAY_OF_WEEK_IN_MONTH: return 1;
+			case AM_PM: return AM;
+
+			case HOUR: return 0;
+			case HOUR_OF_DAY: return 0;
+
+			case MINUTE: return 0;
+
+			case SECOND: return 0;
+
+			case MILLISECOND: return 0;
+
+			case ZONE_OFFSET: return -46800000;
+
+			case DST_OFFSET: return 0;
+
+		}
+
+		//Mimicking the jvm
+		throw new ArrayIndexOutOfBoundsException();
 	}
 
 	public static Locale[] getAvailableLocales()
