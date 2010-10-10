@@ -505,7 +505,7 @@ public class Calendar implements DateConstants
 			// The local date time is put into a Date object solely for the sole purpose of rolling up fields. For
 			// instance, 90 seconds should roll up to 1 minute 30 seconds, which may roll up minutes, etc.
 			Date date = new Date(
-				localDateTime.year,
+				(localDateTime.year - 1900),
 				localDateTime.month,
 				localDateTime.date,
 				localDateTime.hours,
@@ -516,7 +516,7 @@ public class Calendar implements DateConstants
 			date.setTime(date.getTime() + localDateTime.milliseconds);
 
 			// Store the rolled up fields back in the original LocalDateTime object.
-			localDateTime.year = date.getYear();
+			localDateTime.year = (date.getYear() + 1900);
 			localDateTime.month = date.getMonth();
 			localDateTime.date = date.getDate();
 			localDateTime.hours = date.getHours();

@@ -33,7 +33,7 @@ class LocalDateTime
 	@Override
 	public String toString()
 	{
-		return (year + 1900) + "-" + month + "-" + date + " " + hours + ":" + minutes + "." + seconds + "."
+		return year + "-" + month + "-" + date + " " + hours + ":" + minutes + "." + seconds + "."
 				+ milliseconds;
 	}
 
@@ -55,7 +55,7 @@ class LocalDateTime
 	{
 
 			assert timeZone != null : "TimeZone must be set";
-			return Integer.parseInt(DateTimeFormat.getFormat("yyyy").format(date, timeZone)) - 1900;
+			return Integer.parseInt(DateTimeFormat.getFormat("yyyy").format(date, timeZone));
 
 
 	}
