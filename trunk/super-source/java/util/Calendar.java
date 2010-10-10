@@ -14,6 +14,8 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 public class Calendar implements DateConstants
 {
 
+	private static int firstDayOfWeek;
+
 	private TimeZone timeZone;
 
 	private LocalDateTime localDateTime;
@@ -138,7 +140,7 @@ public class Calendar implements DateConstants
 		//TODO, fix
 	}
 
-	int compareTo(Calendar anotherCalendar)
+	public int compareTo(Calendar anotherCalendar)
 	{
 		if( after(anotherCalendar.getTime()))
 		{
@@ -166,6 +168,10 @@ public class Calendar implements DateConstants
 				return localDateTime.month;
 
 			case HOUR:
+				ensureDateCalculated();
+				return localDateTime.hour;
+
+			case HOUR_OF_DAY:
 				ensureDateCalculated();
 				return localDateTime.hours;
 
@@ -199,6 +205,205 @@ public class Calendar implements DateConstants
 	{
 		//TODO, fix
 		return 0;
+	}
+
+	public static Locale[] getAvailableLocales()
+	{
+		//TODO, fix
+		return null;
+	}
+
+	public int getFirstDayOfWeek()
+	{
+		// Gets what the first day of the week is; e.g., SUNDAY in the U.S., MONDAY in France.
+		//TODO, fix
+		return 0;
+	}
+
+	public static Calendar getInstance()
+	{
+		return getInstance(TimeZone.getDefault());
+	}
+
+	public static Calendar getInstance(Locale aLocale)
+	{
+		//TODO, should use locale parsing instead
+		return getInstance(TimeZone.getDefault());
+	}
+
+	public static Calendar getInstance(TimeZone zone)
+	{
+		Calendar calendar = new Calendar(new Date(), zone);
+		return calendar;
+	}
+
+	public static Calendar getInstance(TimeZone zone, Locale aLocale)
+	{
+		Calendar calendar = new Calendar(new Date(), zone);
+		return calendar;
+	}
+
+	public int getMinimalDaysInFirstWeek()
+	{
+		//TODO, fix
+		return 0;
+	}
+
+	/**
+	 * Returns the date with respect to time zone. Thus, all accessors on this returned date will return month, date,
+	 * year, hours, minutes, seconds with respect to browser time zone.
+	 *
+	 * @return an equivalent Date in the browser's time zone.
+	 */
+	public Date getTime()
+	{
+		ensureDateCalculated();
+		return new Date(calculatedDate.getTime());
+	}
+
+	public long getTimeInMillis()
+	{
+		ensureDateCalculated();
+		return calculatedDate.getTime();
+	}
+
+	public TimeZone getTimeZone()
+	{
+		return timeZone;
+	}
+
+
+	public boolean 	isLenient()
+	{
+		//TODO, fix
+		return false;
+	}
+
+	public boolean isSet(int field)
+	{
+		//TODO, fix
+		return false;
+	}
+
+	public void roll(int field, int amount)
+	{
+		//TODO, fix
+	}
+
+	public void set(int field, int amount)
+	{
+		switch (field)
+		{
+			case YEAR:
+				localDateTime.year = amount;
+				needsCalculation = true;
+				break;
+
+			case MONTH:
+				localDateTime.month = amount;
+				needsCalculation = true;
+				break;
+
+			case DATE:
+				localDateTime.date = amount;
+				needsCalculation = true;
+				break;
+
+			case HOUR:
+				//TODO, shouldn't behave like hour of day but, will fix later
+
+			case HOUR_OF_DAY:
+				localDateTime.hours = amount;
+				needsCalculation = true;
+				break;
+
+			case MINUTE:
+				localDateTime.minutes = amount;
+				needsCalculation = true;
+				break;
+
+			case SECOND:
+				localDateTime.seconds = amount;
+				needsCalculation = true;
+				break;
+
+			case MILLISECOND:
+				localDateTime.milliseconds = amount;
+				needsCalculation = true;
+				break;
+
+			default:
+				throw new RuntimeException("Field isn't supported yet, or bad value passed in");
+		}
+	}
+
+	public void set(int year, int month, int date)
+	{
+		set(YEAR, year);
+		set(MONTH, month);
+		set(DATE, date);
+	}
+
+	public void	set(int year, int month, int date, int hourOfDay, int minute)
+	{
+		set(year, month, date);
+		set(HOUR_OF_DAY, hourOfDay);
+		set(MINUTE, minute);
+	}
+
+	public void set(int year, int month, int date, int hourOfDay, int minute, int second)
+	{
+		set(year, month, date, hourOfDay, minute);
+		set(SECOND, second);
+	}
+
+	public void setFirstDayOfWeek(int value)
+	{
+		if( value >= SUNDAY && value <= SATURDAY)
+		{
+			firstDayOfWeek = value;
+		}
+		else
+		{
+			//TODO, see what the jvm does here and emulate, for now throw an exception
+			throw new RuntimeException("bad value passed in");
+		}
+	}
+
+	public void setLenient(boolean lenient)
+	{
+		//TODO, fix
+	}
+
+	public void setMinimalDaysInFirstWeek(int value)
+	{
+		//TODO, fix
+	}
+
+	public void setTime(Date time)
+	{
+		this.localDateTime = LocalDateTime.extractFromDate(time, timeZone.timeZoneContainer.getTimeZone());
+		this.calculatedDate = new Date(time.getTime());
+		needsCalculation = false;
+	}
+
+	public void setTimeInMillis(long time)
+	{
+		setTime(new Date(time));
+	}
+
+	public void setTimeZone(TimeZone timeZone)
+	{
+		this.timeZone = timeZone;
+		ensureDateCalculated();
+
+	}
+
+	@Override
+	public String toString()
+	{
+		//TODO, fix
+		return null;
 	}
 
 
@@ -248,22 +453,6 @@ public class Calendar implements DateConstants
 		}
 	}
 
-	public static Calendar getInstance()
-	{
-		return getInstance(TimeZone.getDefault());
-	}
-
-	public static Calendar getInstance(Locale aLocale)
-	{
-		//TODO, should use locale parsing instead
-		return getInstance(TimeZone.getDefault());
-	}
-
-	public static Calendar getInstance(TimeZone zone)
-	{
-		Calendar calendar = new Calendar(new Date(), zone);
-		return calendar;
-	}
 
 	/**
 	 * Adjusts the calendar's time to the start, or 0:00.00.000, of it's current day.
@@ -304,71 +493,6 @@ public class Calendar implements DateConstants
 	{
 		ensureDateCalculated();
 		return calculatedDate.before(when);
-	}
-
-	public void set(int field, int amount)
-	{
-		switch (field)
-		{
-			case YEAR:
-				localDateTime.year = amount;
-				needsCalculation = true;
-				break;
-
-			case MONTH:
-				localDateTime.month = amount;
-				needsCalculation = true;
-				break;
-
-			case DATE:
-				localDateTime.date = amount;
-				needsCalculation = true;
-				break;
-
-			case HOUR:
-				localDateTime.hours = amount;
-				needsCalculation = true;
-				break;
-
-			case MINUTE:
-				localDateTime.minutes = amount;
-				needsCalculation = true;
-				break;
-
-			case SECOND:
-				localDateTime.seconds = amount;
-				needsCalculation = true;
-				break;
-
-			case MILLISECOND:
-				localDateTime.milliseconds = amount;
-				needsCalculation = true;
-				break;
-
-			default:
-				throw new RuntimeException("Field isn't supported yet, or bad value passed in");
-		}
-	}
-
-
-
-	public void setTimeZone(TimeZone timeZone)
-	{
-		this.timeZone = timeZone;
-		ensureDateCalculated();
-
-	}
-
-	/**
-	 * Returns the date with respect to time zone. Thus, all accessors on this returned date will return month, date,
-	 * year, hours, minutes, seconds with respect to browser time zone.
-	 *
-	 * @return an equivalent Date in the browser's time zone.
-	 */
-	public Date getTime()
-	{
-		ensureDateCalculated();
-		return new Date(calculatedDate.getTime());
 	}
 
 
@@ -413,28 +537,9 @@ public class Calendar implements DateConstants
 
 	}
 
-	public TimeZone getTimeZone()
-	{
-		return timeZone;
-	}
 
-	public void setTime(Date time)
-	{
-		this.localDateTime = LocalDateTime.extractFromDate(time, timeZone.timeZoneContainer.getTimeZone());
-		this.calculatedDate = new Date(time.getTime());
-		needsCalculation = false;
-	}
 
-	public void setTimeInMillis(long time)
-	{
-		setTime(new Date(time));
-	}
 
-	public long getTimeInMillis()
-	{
-		ensureDateCalculated();
-		return calculatedDate.getTime();
-	}
 
 	@Override
 	public boolean equals(Object obj)
