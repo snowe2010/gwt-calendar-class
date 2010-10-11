@@ -64,7 +64,7 @@ public class Calendar implements DateConstants
 		switch (field)
 		{
 			case YEAR:
-				localDateTime.year = amount;
+				localDateTime.year += amount;
 				needsCalculation = true;
 				break;
 
@@ -129,7 +129,15 @@ public class Calendar implements DateConstants
 
 	public void clear()
 	{
-		//TODO, fix
+		localDateTime.year = 1970;
+		localDateTime.month = 0;
+		localDateTime.date = 1;
+		localDateTime.hours = 0;
+		localDateTime.hour = 0;
+		localDateTime.minutes = 0;
+		localDateTime.seconds = 0;
+		localDateTime.milliseconds = 0;
+		needsCalculation = true;
 	}
 
 	public void clear( int field)
