@@ -14,4 +14,7 @@ Download the jar and add the following line in your gwt.xml file:
 
 *Warning:*
 
-At the moment, you'll have to use the GWTCalendar class.  We will be switching to use java.util.Calendar in the near future.  I wouldn't recommend this project for consumption yet, it's in alpha status.
+The jar is in alpha right now, I think core functionality should work fine.  The locale class doesn't have any methods implemented, it's there for compatibility reasons.  If you have any issues please contact me at another.two@gmail.com.  
+
+Thanks,
+Artie
