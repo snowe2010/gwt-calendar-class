@@ -58,11 +58,30 @@ public class Calendar implements DateConstants
 		setTime(date);
 	}
 
+
+	private void boundsCheck(int field, int amount)
+	{
+		switch (field)
+		{
+			case ERA:
+			if( amount > getActualMaximum(Calendar.ERA) || amount < getActualMinimum(Calendar.ERA))
+			{
+				throw new IllegalArgumentException("Invalid era");
+			}
+		}
+	}
+
 	//methods from API
 	public void add(int field, int amount)
 	{
 		switch (field)
 		{
+			case ERA:
+				boundsCheck( field, amount + localDateTime.era);
+				localDateTime.era += amount;
+				needsCalculation = true;
+				break;
+
 			case YEAR:
 				localDateTime.year += amount;
 				needsCalculation = true;
@@ -102,7 +121,9 @@ public class Calendar implements DateConstants
 				break;
 
 			default:
-				throw new RuntimeException("Field isn't supported yet, or bad value passed in");
+
+				//mimicking the jvm
+				throw new ArrayIndexOutOfBoundsException(field);
 		}
 	}
 
@@ -256,8 +277,10 @@ public class Calendar implements DateConstants
 				//TODO, fix
 
 			default:
-				throw new RuntimeException("Field isn't supported yet, or bad value passed in");
+				//emulating the jvm
+				throw new ArrayIndexOutOfBoundsException(field);
 		}
+
 	}
 
 	public int getActualMaximum(int field)
@@ -291,7 +314,7 @@ public class Calendar implements DateConstants
 		}
 
 		//Mimicking the jvm
-		throw new ArrayIndexOutOfBoundsException();
+		throw new ArrayIndexOutOfBoundsException(field);
 	}
 
 	public int getActualMinimum(int field)
@@ -325,7 +348,7 @@ public class Calendar implements DateConstants
 		}
 
 		//Mimicking the jvm
-		throw new ArrayIndexOutOfBoundsException();
+		throw new ArrayIndexOutOfBoundsException(field);
 	}
 
 	public static Locale[] getAvailableLocales()
@@ -408,7 +431,51 @@ public class Calendar implements DateConstants
 
 	public void roll(int field, int amount)
 	{
-		//TODO, fix
+		switch(field)
+		{
+			case ERA: int modAmount = amount % 2;
+			if( modAmount < 0)
+			{
+				modAmount = modAmount * -1;
+			}
+
+			if( localDateTime.era == 1)
+			{
+				localDateTime.era = ~modAmount;
+			}
+			else
+			{
+				localDateTime.era = modAmount;
+			}
+
+			//TODO case YEAR: return 1;
+			//TODO case MONTH: return 0;
+			//TODO case WEEK_OF_YEAR: return 1;
+			//TODO case WEEK_OF_MONTH: return 0;
+			//TODO case DATE: return 1;
+			//TODO case DAY_OF_YEAR: return 1;
+			//TODO case DAY_OF_WEEK: return 1;
+			//TODO case DAY_OF_WEEK_IN_MONTH: return 1;
+			//TODO case AM_PM: return AM;
+
+			//TODO case HOUR: return 0;
+			//TODO case HOUR_OF_DAY: return 0;
+
+			//TODO case MINUTE: return 0;
+
+			//TODO case SECOND: return 0;
+
+			//TODO case MILLISECOND: return 0;
+
+			//TODO case ZONE_OFFSET: return -46800000;
+
+			//TODO case DST_OFFSET: return 0;
+
+		}
+
+		//Mimicking the jvm
+		throw new ArrayIndexOutOfBoundsException(field);
+
 	}
 
 	public void set(int field, int amount)
@@ -416,7 +483,10 @@ public class Calendar implements DateConstants
 		switch (field)
 		{
 			case ERA:
-			//TODO, fix!
+				boundsCheck( field, amount);
+				localDateTime.era = amount;
+				needsCalculation = true;
+				break;
 
 			case YEAR:
 				localDateTime.year = amount;
