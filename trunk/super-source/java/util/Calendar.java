@@ -168,7 +168,7 @@ public class Calendar implements DateConstants
 		}
 
 		//emulating the jvm
-		throw new ArrayIndexOutOfBoundsException();
+		throw new ArrayIndexOutOfBoundsException(field);
 	}
 
 	public int compareTo(Calendar anotherCalendar)
