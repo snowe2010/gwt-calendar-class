@@ -158,7 +158,6 @@ public class Calendar implements DateConstants
 		localDateTime.month = 0;
 		localDateTime.date = 1;
 		localDateTime.hourOfDay = 0;
-		localDateTime.hour = 0;
 		localDateTime.minutes = 0;
 		localDateTime.seconds = 0;
 		localDateTime.milliseconds = 0;
@@ -250,7 +249,7 @@ public class Calendar implements DateConstants
 
 			case HOUR:
 				ensureDateCalculated();
-				return localDateTime.hour;
+				return localDateTime.getHour();
 
 			case HOUR_OF_DAY:
 				ensureDateCalculated();

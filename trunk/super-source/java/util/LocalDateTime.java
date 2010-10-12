@@ -21,7 +21,7 @@ class LocalDateTime
 
 	int hourOfDay;
 
-	int hour;
+	private int hour;
 
 	int minutes;
 
@@ -30,6 +30,14 @@ class LocalDateTime
 	int milliseconds;
 
 	int era = 1;
+
+
+
+
+	public int getHour() {
+		return hour;
+	}
+
 
 
 	@Override
@@ -91,7 +99,7 @@ class LocalDateTime
 	{
 
 			assert timeZone != null : "TimeZone must be set";
-			return Integer.parseInt(DateTimeFormat.getFormat("h").format(date, timeZone));
+			return Integer.parseInt(DateTimeFormat.getFormat("h").format(date, timeZone)) % 12;
 
 	}
 
