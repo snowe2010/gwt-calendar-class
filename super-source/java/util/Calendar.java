@@ -79,7 +79,10 @@ public class Calendar implements DateConstants
 				break;
 
 			case HOUR:
-				localDateTime.date += amount;
+				//TODO, fix
+
+			case HOUR_OF_DAY:
+				localDateTime.hourOfDay += amount;
 				needsCalculation = true;
 				break;
 
@@ -129,10 +132,11 @@ public class Calendar implements DateConstants
 
 	public void clear()
 	{
+		localDateTime.era = 1;
 		localDateTime.year = 1970;
 		localDateTime.month = 0;
 		localDateTime.date = 1;
-		localDateTime.hours = 0;
+		localDateTime.hourOfDay = 0;
 		localDateTime.hour = 0;
 		localDateTime.minutes = 0;
 		localDateTime.seconds = 0;
@@ -142,7 +146,29 @@ public class Calendar implements DateConstants
 
 	public void clear( int field)
 	{
-		//TODO, fix
+		switch(field)
+		{
+			case ERA: localDateTime.era = 1;needsCalculation = true;break;
+			case YEAR: localDateTime.year = 1970;needsCalculation = true;break;
+			case WEEK_OF_YEAR: break; //TODO, implement
+			case WEEK_OF_MONTH: break; //TODO, implement
+			case MONTH: localDateTime.month = 1970;needsCalculation = true;break;
+			case DATE: localDateTime.date = 1;needsCalculation = true;break;
+			case DAY_OF_YEAR: break; //TODO, implement
+			case DAY_OF_WEEK: break; //TODO, implement
+			case DAY_OF_WEEK_IN_MONTH: break; //TODO, implement
+			case AM_PM: break; //TODO, implement
+			case HOUR: break; //TODO, implement
+			case HOUR_OF_DAY: localDateTime.hourOfDay = 0;needsCalculation = true;break;
+			case MINUTE: localDateTime.minutes = 0; needsCalculation = true;break;
+			case SECOND: localDateTime.seconds = 0; needsCalculation = true;break;
+			case MILLISECOND: localDateTime.milliseconds = 0; needsCalculation = true;break;
+			case ZONE_OFFSET: break; //TODO, implement
+			case DST_OFFSET: break; //TODO, implement
+		}
+
+		//emulating the jvm
+		throw new ArrayIndexOutOfBoundsException();
 	}
 
 	public int compareTo(Calendar anotherCalendar)
@@ -167,6 +193,7 @@ public class Calendar implements DateConstants
 			case ERA:
 
 				//TODO, do something here
+				return 1;
 
 			case YEAR:
 				ensureDateCalculated();
@@ -206,7 +233,7 @@ public class Calendar implements DateConstants
 
 			case HOUR_OF_DAY:
 				ensureDateCalculated();
-				return localDateTime.hours;
+				return localDateTime.hourOfDay;
 
 
 
@@ -219,7 +246,7 @@ public class Calendar implements DateConstants
 				return localDateTime.seconds;
 
 			case MILLISECOND:
-				//TODO, fix
+				return localDateTime.milliseconds;
 
 			case ZONE_OFFSET:
 				//TODO, fix
@@ -388,6 +415,9 @@ public class Calendar implements DateConstants
 	{
 		switch (field)
 		{
+			case ERA:
+			//TODO, fix!
+
 			case YEAR:
 				localDateTime.year = amount;
 				needsCalculation = true;
@@ -407,7 +437,7 @@ public class Calendar implements DateConstants
 				//TODO, shouldn't behave like hour of day but, will fix later
 
 			case HOUR_OF_DAY:
-				localDateTime.hours = amount;
+				localDateTime.hourOfDay = amount;
 				needsCalculation = true;
 				break;
 
@@ -516,7 +546,7 @@ public class Calendar implements DateConstants
 				(localDateTime.year - 1900),
 				localDateTime.month,
 				localDateTime.date,
-				localDateTime.hours,
+				localDateTime.hourOfDay,
 				localDateTime.minutes,
 				localDateTime.seconds);
 
@@ -527,7 +557,7 @@ public class Calendar implements DateConstants
 			localDateTime.year = (date.getYear() + 1900);
 			localDateTime.month = date.getMonth();
 			localDateTime.date = date.getDate();
-			localDateTime.hours = date.getHours();
+			localDateTime.hourOfDay = date.getHours();
 			localDateTime.minutes = date.getMinutes();
 			localDateTime.seconds = date.getSeconds();
 			localDateTime.milliseconds = (int) (date.getTime() % 1000l);
@@ -537,7 +567,7 @@ public class Calendar implements DateConstants
 				localDateTime.year,
 				localDateTime.month,
 				localDateTime.date,
-				localDateTime.hours,
+				localDateTime.hourOfDay,
 				localDateTime.minutes,
 				localDateTime.seconds,
 				localDateTime.milliseconds,
