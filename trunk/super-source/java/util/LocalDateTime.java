@@ -19,7 +19,7 @@ class LocalDateTime
 
 	int date;
 
-	int hours;
+	int hourOfDay;
 
 	int hour;
 
@@ -29,11 +29,13 @@ class LocalDateTime
 
 	int milliseconds;
 
+	int era = 1;
+
 
 	@Override
 	public String toString()
 	{
-		return year + "-" + month + "-" + date + " " + hours + ":" + minutes + "." + seconds + "."
+		return year + "-" + month + "-" + date + " " + hourOfDay + ":" + minutes + "." + seconds + "."
 				+ milliseconds;
 	}
 
@@ -43,7 +45,7 @@ class LocalDateTime
 		i.year = getYearFromDate(date, timeZone);
 		i.month = getMonthFromDate(date, timeZone);
 		i.date = getDateFromDate(date, timeZone);
-		i.hours = getHourOfDayFromDate(date, timeZone);
+		i.hourOfDay = getHourOfDayFromDate(date, timeZone);
 		i.hour = getHourFromDate(date, timeZone);
 		i.minutes = getMinutesFromDate(date, timeZone);
 		i.seconds = getSecondsFromDate(date, timeZone);
@@ -89,7 +91,7 @@ class LocalDateTime
 	{
 
 			assert timeZone != null : "TimeZone must be set";
-			return Integer.parseInt(DateTimeFormat.getFormat("H").format(date, timeZone));
+			return Integer.parseInt(DateTimeFormat.getFormat("h").format(date, timeZone));
 
 	}
 
