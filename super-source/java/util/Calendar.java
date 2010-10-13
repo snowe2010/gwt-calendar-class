@@ -3,6 +3,7 @@ package java.util;
 import java.util.Date;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.Window;
 
 /**
  * A wrapper around the java Date object so that accessors for year, month, date, hours, minutes, and day returns values
@@ -161,6 +162,7 @@ public class Calendar implements DateConstants
 		localDateTime.minutes = 0;
 		localDateTime.seconds = 0;
 		localDateTime.milliseconds = 0;
+		
 		needsCalculation = true;
 	}
 
@@ -212,8 +214,8 @@ public class Calendar implements DateConstants
 		{
 			case ERA:
 
-				//TODO, do something here
-				return 1;
+				ensureDateCalculated();
+				return localDateTime.era;
 
 			case YEAR:
 				ensureDateCalculated();
@@ -611,8 +613,18 @@ public class Calendar implements DateConstants
 		{
 			// The local date time is put into a Date object solely for the sole purpose of rolling up fields. For
 			// instance, 90 seconds should roll up to 1 minute 30 seconds, which may roll up minutes, etc.
+			
+			//if its set in AD, use AD, else convert to BC
+			int year = localDateTime.year - 1900;
+			if( localDateTime.era == 0)
+			{
+				year = (localDateTime.year + 1899) * -1;
+			}
+			
+			
+			Window.alert("Date is: " + localDateTime.date); 
 			Date date = new Date(
-				(localDateTime.year - 1900),
+				year,
 				localDateTime.month,
 				localDateTime.date,
 				localDateTime.hourOfDay,
@@ -621,18 +633,12 @@ public class Calendar implements DateConstants
 
 			// Date class does not have milliseconds manipulation.
 			date.setTime(date.getTime() + localDateTime.milliseconds);
-
+			
 			// Store the rolled up fields back in the original LocalDateTime object.
-			localDateTime.year = (date.getYear() + 1900);
-			localDateTime.month = date.getMonth();
-			localDateTime.date = date.getDate();
-			localDateTime.hourOfDay = date.getHours();
-			localDateTime.minutes = date.getMinutes();
-			localDateTime.seconds = date.getSeconds();
-			localDateTime.milliseconds = (int) (date.getTime() % 1000l);
+			localDateTime.setValuesFromDate(date);
 
 			// Add time zone to the LocalDateTime to construct a real Date (thus with timezone)
-			calculatedDate = Calendar.createDate(
+			calculatedDate = Calendar.createDate(localDateTime.era,
 				localDateTime.year,
 				localDateTime.month,
 				localDateTime.date,
@@ -641,6 +647,7 @@ public class Calendar implements DateConstants
 				localDateTime.seconds,
 				localDateTime.milliseconds,
 				timeZone);
+			
 
 			needsCalculation = false;
 		}
@@ -714,13 +721,21 @@ public class Calendar implements DateConstants
 	}
 
 	@SuppressWarnings("deprecation")
-	private static Date createDate(int year, int month, int date, int hours, int minutes, int seconds,
+	private static Date createDate(int era, int year, int month, int date, int hours, int minutes, int seconds,
 			int milliseconds, TimeZone timeZone)
 	{
+		int aYear = year - 1900;
+		if( era == 0)
+		{
+			aYear = (year + 1899) * -1;
+		}
+		
 		// This date is initially incorrect since it will be in browser time zone
 		// We shall mutate it to respect the given time zone
-		Date d = new Date(year, month, date, hours, minutes, seconds);
+		Date d = new Date(aYear, month, date, hours, minutes, seconds);
 		d.setTime(d.getTime() + milliseconds);
+		
+		Window.alert("time is: " + d);
 
 
 		// Console.log("GWTDate createDate " + d);

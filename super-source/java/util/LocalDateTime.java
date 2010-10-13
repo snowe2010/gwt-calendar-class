@@ -13,6 +13,8 @@ import com.google.gwt.i18n.client.TimeZone;
  */
 class LocalDateTime
 {
+	int era;
+	
 	int year;
 
 	int month;
@@ -29,7 +31,6 @@ class LocalDateTime
 
 	int milliseconds;
 
-	int era = 1;
 
 
 
@@ -50,6 +51,7 @@ class LocalDateTime
 	static LocalDateTime extractFromDate(Date date, TimeZone timeZone)
 	{
 		LocalDateTime i = new LocalDateTime();
+		i.era = getEraFromDate(date, timeZone);
 		i.year = getYearFromDate(date, timeZone);
 		i.month = getMonthFromDate(date, timeZone);
 		i.date = getDateFromDate(date, timeZone);
@@ -60,6 +62,18 @@ class LocalDateTime
 		i.milliseconds = getMillisecondsFromDate(date, timeZone);
 		return i;
 	}
+
+	private static int getEraFromDate(Date date2, TimeZone timeZone) {
+		assert timeZone != null : "TimeZone must be set";
+		if(DateTimeFormat.getFormat("G").format(date2, timeZone).equals("AD"))
+		{
+			return 1;
+		}
+		
+		return 0;
+	}
+
+
 
 	private static int getYearFromDate(Date date, TimeZone timeZone)
 	{
@@ -125,5 +139,31 @@ class LocalDateTime
 			assert timeZone != null : "TimeZone must be set";
 			return Integer.parseInt(DateTimeFormat.getFormat("S").format(date, timeZone));
 
+	}
+
+
+
+	public void setValuesFromDate(Date aDate) {
+		if(DateTimeFormat.getFormat("G").format(aDate).equals("AD"))
+		{
+			era = 1;
+		}
+		else
+		{
+			era = 0;
+		}
+		
+		year = (aDate.getYear() + 1900);
+		month = aDate.getMonth();
+		date = aDate.getDate();
+		hourOfDay = aDate.getHours();
+		minutes = aDate.getMinutes();
+		seconds = aDate.getSeconds();
+		milliseconds = (int) (aDate.getTime() % 1000l);
+		
+		//now set fields that are calculated
+		hour = Integer.parseInt(DateTimeFormat.getFormat("h").format(aDate)) % 12;
+		
+		
 	}
 }
