@@ -622,7 +622,6 @@ public class Calendar implements DateConstants
 			}
 			
 			
-			Window.alert("Date is: " + localDateTime.date); 
 			Date date = new Date(
 				year,
 				localDateTime.month,
@@ -735,7 +734,6 @@ public class Calendar implements DateConstants
 		Date d = new Date(aYear, month, date, hours, minutes, seconds);
 		d.setTime(d.getTime() + milliseconds);
 		
-		Window.alert("time is: " + d);
 
 
 		// Console.log("GWTDate createDate " + d);
