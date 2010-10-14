@@ -34,11 +34,8 @@ public class TimeZone {
 
 	 }
 
-	 private static TimeZone getDefaultTimeZone() {
-
-		 //int offset = new Date().getTimezoneOffset() * -1000;
-
-		 //String[] possibleValues = getAvailableIDs(offset);
+	 private static TimeZone getDefaultTimeZone()
+	 {
 
 		 List<TimeZone> possibleTimeZones = new ArrayList<TimeZone>();
 		 int offset = new Date().getTimezoneOffset();
@@ -46,6 +43,7 @@ public class TimeZone {
 		 for( String value : getAvailableIDs())
 		 {
 			 TimeZone tz = TimeZone.getTimeZone(value);
+			 int tzOffset1 = tz.getOffset(new Date().getTime()) / 60000 * -1;
 			if( tz.getOffset(new Date().getTime()) == offset)
 			{
 				boolean isValid = true;
@@ -75,23 +73,22 @@ public class TimeZone {
 					//Window.alert(value);
 				}
 
-				//default case
-				if(possibleTimeZones.size() == 0)
-				{
-					return getTimeZone("Etc/GMT+0");
-				}
 
-
-
-				return possibleTimeZones.get(0);
 
 			}
 
-			 //Window.alert(value);
 		 }
 
+		//default case
+		if(possibleTimeZones.size() == 0)
+		{
+			return getTimeZone("Etc/GMT+0");
+		}
 
-		 return new TimeZone(new TimeZoneContainer(null, null, com.google.gwt.i18n.client.TimeZone.createTimeZone((new Date()).getTimezoneOffset()), null));
+
+
+		return possibleTimeZones.get(0);
+
 
 	}
 
