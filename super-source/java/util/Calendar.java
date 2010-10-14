@@ -162,7 +162,7 @@ public class Calendar implements DateConstants
 		localDateTime.minutes = 0;
 		localDateTime.seconds = 0;
 		localDateTime.milliseconds = 0;
-		
+
 		needsCalculation = true;
 	}
 
@@ -268,10 +268,12 @@ public class Calendar implements DateConstants
 				return localDateTime.seconds;
 
 			case MILLISECOND:
+				ensureDateCalculated();
 				return localDateTime.milliseconds;
 
 			case ZONE_OFFSET:
-				//TODO, fix
+				ensureDateCalculated();
+				return timeZone.timeZoneContainer.getTimeZone().getStandardOffset() * -60000;
 			case DST_OFFSET:
 				//TODO, fix
 			case FIELD_COUNT:
@@ -613,15 +615,15 @@ public class Calendar implements DateConstants
 		{
 			// The local date time is put into a Date object solely for the sole purpose of rolling up fields. For
 			// instance, 90 seconds should roll up to 1 minute 30 seconds, which may roll up minutes, etc.
-			
+
 			//if its set in AD, use AD, else convert to BC
 			int year = localDateTime.year - 1900;
 			if( localDateTime.era == 0)
 			{
 				year = (localDateTime.year + 1899) * -1;
 			}
-			
-			
+
+
 			Date date = new Date(
 				year,
 				localDateTime.month,
@@ -632,7 +634,7 @@ public class Calendar implements DateConstants
 
 			// Date class does not have milliseconds manipulation.
 			date.setTime(date.getTime() + localDateTime.milliseconds);
-			
+
 			// Store the rolled up fields back in the original LocalDateTime object.
 			localDateTime.setValuesFromDate(date);
 
@@ -646,7 +648,7 @@ public class Calendar implements DateConstants
 				localDateTime.seconds,
 				localDateTime.milliseconds,
 				timeZone);
-			
+
 
 			needsCalculation = false;
 		}
@@ -728,12 +730,12 @@ public class Calendar implements DateConstants
 		{
 			aYear = (year + 1899) * -1;
 		}
-		
+
 		// This date is initially incorrect since it will be in browser time zone
 		// We shall mutate it to respect the given time zone
 		Date d = new Date(aYear, month, date, hours, minutes, seconds);
 		d.setTime(d.getTime() + milliseconds);
-		
+
 
 
 		// Console.log("GWTDate createDate " + d);
