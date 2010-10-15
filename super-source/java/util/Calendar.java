@@ -189,10 +189,13 @@ public class Calendar implements DateConstants
 			case MILLISECOND: localDateTime.milliseconds = 0; needsCalculation = true;break;
 			case ZONE_OFFSET: break; //TODO, implement
 			case DST_OFFSET: break; //TODO, implement
+
+			default:
+				//emulating the jvm
+				throw new ArrayIndexOutOfBoundsException(field);
 		}
 
-		//emulating the jvm
-		throw new ArrayIndexOutOfBoundsException(field);
+
 	}
 
 	public int compareTo(Calendar anotherCalendar)
@@ -475,10 +478,12 @@ public class Calendar implements DateConstants
 
 			//TODO case DST_OFFSET: return 0;
 
+			default:
+				//Mimicking the jvm
+				throw new ArrayIndexOutOfBoundsException(field);
+
 		}
 
-		//Mimicking the jvm
-		throw new ArrayIndexOutOfBoundsException(field);
 
 	}
 
