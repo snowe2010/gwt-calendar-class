@@ -23,6 +23,8 @@ public class Calendar implements DateConstants
 
 	private Date calculatedDate;
 
+	private int minimalDaysInFirstWeek = 1;
+
 	/**
 	 * True if months, dates, hours, minutes, seconds, and milliseconds need to be rolled over and the java.util.Date
 	 * needs to be calculated.
@@ -392,8 +394,7 @@ public class Calendar implements DateConstants
 
 	public int getMinimalDaysInFirstWeek()
 	{
-		//TODO, fix
-		return 0;
+		return minimalDaysInFirstWeek;
 	}
 
 	/**
@@ -574,7 +575,7 @@ public class Calendar implements DateConstants
 
 	public void setMinimalDaysInFirstWeek(int value)
 	{
-		//TODO, fix
+		minimalDaysInFirstWeek = value;
 	}
 
 	public void setTime(Date time)
