@@ -43,8 +43,7 @@ public class TimeZone {
 		 for( String value : getAvailableIDs())
 		 {
 			 TimeZone tz = TimeZone.getTimeZone(value);
-			 int tzOffset1 = tz.getOffset(new Date().getTime()) / 60000 * -1;
-			if( tz.getOffset(new Date().getTime()) == offset)
+			if( tz.timeZoneContainer.getTimeZone().getOffset(new Date()) == offset)
 			{
 				boolean isValid = true;
 				for(int i = 1; i < 366; i++)
@@ -52,7 +51,7 @@ public class TimeZone {
 					Date d = new Date();
 					CalendarUtil.addDaysToDate(d,i);
 					int tzOffset = d.getTimezoneOffset();
-					if(tzOffset != tz.getOffset(d.getTime()))
+					if(tzOffset != tz.timeZoneContainer.getTimeZone().getOffset(d))
 					{
 						isValid = false;
 						break;
@@ -200,7 +199,7 @@ public class TimeZone {
 
 	 public int getOffset(long date)
 	 {
-		 return timeZoneContainer.getTimeZone().getOffset(new Date(date));
+		 return timeZoneContainer.getTimeZone().getOffset(new Date(date)) * -60000;
 
 	 }
 

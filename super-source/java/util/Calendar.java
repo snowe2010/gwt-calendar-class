@@ -180,7 +180,7 @@ public class Calendar implements DateConstants
 			case DAY_OF_WEEK: break; //TODO, implement
 			case DAY_OF_WEEK_IN_MONTH: break; //TODO, implement
 			case AM_PM: break; //TODO, implement
-			case HOUR: break; //TODO, implement
+			case HOUR: localDateTime.hourOfDay = 0;needsCalculation = true;break;  //TODO, test to make sure this is correct
 			case HOUR_OF_DAY: localDateTime.hourOfDay = 0;needsCalculation = true;break;
 			case MINUTE: localDateTime.minutes = 0; needsCalculation = true;break;
 			case SECOND: localDateTime.seconds = 0; needsCalculation = true;break;
