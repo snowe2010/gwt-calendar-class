@@ -103,6 +103,23 @@ public class Calendar implements DateConstants
 				needsCalculation = true;
 				break;
 
+
+			case DAY_OF_YEAR:
+				//TODO, implement
+				break;
+
+			case DAY_OF_WEEK:
+				//TODO, implement
+				break;
+
+			case DAY_OF_WEEK_IN_MONTH:
+				//TODO, implement
+				break;
+
+			case AM_PM:
+				//has no behavior
+				break;
+
 			case HOUR:
 				//TODO, fix
 
@@ -185,7 +202,7 @@ public class Calendar implements DateConstants
 			case DAY_OF_YEAR: break; //TODO, implement
 			case DAY_OF_WEEK: break; //TODO, implement
 			case DAY_OF_WEEK_IN_MONTH: break; //TODO, implement
-			case AM_PM: break; //TODO, implement
+			case AM_PM: break; //seems to do nothing, implementing through a break
 			case HOUR: localDateTime.hourOfDay = 0;needsCalculation = true;break;  //TODO, test to make sure this is correct
 			case HOUR_OF_DAY: localDateTime.hourOfDay = 0;needsCalculation = true;break;
 			case MINUTE: localDateTime.minutes = 0; needsCalculation = true;break;
@@ -241,6 +258,15 @@ public class Calendar implements DateConstants
 			case WEEK_OF_MONTH:
 				//TODO, fix
 
+			case AM_PM: ensureDateCalculated();
+					if( localDateTime.hourOfDay < 12)
+					{
+						return AM;
+					}
+					else
+					{
+						return PM;
+					}
 
 			case DATE:
 				ensureDateCalculated();
@@ -485,7 +511,7 @@ public class Calendar implements DateConstants
 			//TODO case DAY_OF_YEAR: return 1;
 			//TODO case DAY_OF_WEEK: return 1;
 			//TODO case DAY_OF_WEEK_IN_MONTH: return 1;
-			//TODO case AM_PM: return AM;
+			case AM_PM: break; //has no effect
 
 			//TODO case HOUR: return 0;
 			//TODO case HOUR_OF_DAY: return 0;
@@ -532,6 +558,10 @@ public class Calendar implements DateConstants
 			case DATE:
 				localDateTime.date = amount;
 				needsCalculation = true;
+				break;
+
+			case AM_PM:
+				//TODO, implement
 				break;
 
 			case HOUR:
