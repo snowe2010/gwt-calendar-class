@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.datepicker.client.CalendarUtil;
 
 /**
  * A wrapper around the java Date object so that accessors for year, month, date, hours, minutes, and day returns values
@@ -24,6 +25,8 @@ public class Calendar implements DateConstants
 	private Date calculatedDate;
 
 	private int minimalDaysInFirstWeek = 1;
+
+	private Integer overridenTZ = null;
 
 	/**
 	 * True if months, dates, hours, minutes, seconds, and milliseconds need to be rolled over and the java.util.Date
@@ -164,6 +167,7 @@ public class Calendar implements DateConstants
 		localDateTime.minutes = 0;
 		localDateTime.seconds = 0;
 		localDateTime.milliseconds = 0;
+		overridenTZ = null;
 
 		needsCalculation = true;
 	}
@@ -187,7 +191,7 @@ public class Calendar implements DateConstants
 			case MINUTE: localDateTime.minutes = 0; needsCalculation = true;break;
 			case SECOND: localDateTime.seconds = 0; needsCalculation = true;break;
 			case MILLISECOND: localDateTime.milliseconds = 0; needsCalculation = true;break;
-			case ZONE_OFFSET: break; //TODO, implement
+			case ZONE_OFFSET: overridenTZ = null; needsCalculation = true; break;
 			case DST_OFFSET: break; //TODO, implement
 
 			default:
@@ -245,7 +249,17 @@ public class Calendar implements DateConstants
 
 			case DAY_OF_YEAR:
 
-				//TODO, fix
+				ensureDateCalculated();
+				Calendar firstDay = Calendar.getInstance(this.timeZone);
+				firstDay.setTime(this.getTime());
+				firstDay.set(Calendar.MONTH, 0);
+				firstDay.set(Calendar.DATE, 1);
+				firstDay.set(Calendar.HOUR, 0);
+				firstDay.set(Calendar.MINUTE, 0);
+				firstDay.set(Calendar.SECOND, 0);
+				firstDay.set(Calendar.MILLISECOND, 0);
+
+				return CalendarUtil.getDaysBetween(firstDay.getTime(), calculatedDate) + 1;
 
 			case DAY_OF_WEEK:
 				return getDay();
@@ -278,7 +292,15 @@ public class Calendar implements DateConstants
 
 			case ZONE_OFFSET:
 				ensureDateCalculated();
-				return timeZone.timeZoneContainer.getTimeZone().getStandardOffset() * -60000;
+
+				if( overridenTZ == null )
+				{
+					return timeZone.timeZoneContainer.getTimeZone().getStandardOffset() * -60000;
+				}
+				else
+				{
+					return overridenTZ;
+				}
 			case DST_OFFSET:
 				//TODO, fix
 			case FIELD_COUNT:
@@ -535,6 +557,16 @@ public class Calendar implements DateConstants
 				needsCalculation = true;
 				break;
 
+			case ZONE_OFFSET:
+
+				overridenTZ = amount;
+				needsCalculation = true;
+				break;
+
+			case DST_OFFSET:
+				//TODO, fix
+				break;
+
 			default:
 				throw new RuntimeException("Field isn't supported yet, or bad value passed in");
 		}
@@ -645,6 +677,7 @@ public class Calendar implements DateConstants
 			localDateTime.setValuesFromDate(date);
 
 			// Add time zone to the LocalDateTime to construct a real Date (thus with timezone)
+			//TODO, take into account overridden tz value
 			calculatedDate = Calendar.createDate(localDateTime.era,
 				localDateTime.year,
 				localDateTime.month,
