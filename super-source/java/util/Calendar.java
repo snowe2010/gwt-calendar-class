@@ -117,7 +117,7 @@ public class Calendar implements DateConstants
 				break;
 
 			case AM_PM:
-				//has no behavior
+				localDateTime.hourOfDay += (amount * 12);
 				break;
 
 			case HOUR:
