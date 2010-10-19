@@ -93,6 +93,12 @@ public class Calendar implements DateConstants
 				needsCalculation = true;
 				break;
 
+			case WEEK_OF_YEAR: //TODO, implement
+				break;
+
+			case WEEK_OF_MONTH: //TODO, implement
+				break;
+
 			case MONTH:
 				localDateTime.month += amount;
 				needsCalculation = true;
@@ -258,20 +264,9 @@ public class Calendar implements DateConstants
 			case WEEK_OF_MONTH:
 				//TODO, fix
 
-			case AM_PM: ensureDateCalculated();
-					if( localDateTime.hourOfDay < 12)
-					{
-						return AM;
-					}
-					else
-					{
-						return PM;
-					}
-
 			case DATE:
 				ensureDateCalculated();
 				return localDateTime.date;
-
 
 			case DAY_OF_YEAR:
 
@@ -293,6 +288,20 @@ public class Calendar implements DateConstants
 			case DAY_OF_WEEK_IN_MONTH:
 
 				//TODO, fix
+
+
+			case AM_PM: ensureDateCalculated();
+					if( localDateTime.hourOfDay < 12)
+					{
+						return AM;
+					}
+					else
+					{
+						return PM;
+					}
+
+
+
 
 			case HOUR:
 				ensureDateCalculated();
@@ -488,20 +497,23 @@ public class Calendar implements DateConstants
 	{
 		switch(field)
 		{
-			case ERA: int modAmount = amount % 2;
-			if( modAmount < 0)
-			{
-				modAmount = modAmount * -1;
-			}
+			case ERA:
 
-			if( localDateTime.era == 1)
-			{
-				localDateTime.era = ~modAmount;
-			}
-			else
-			{
-				localDateTime.era = modAmount;
-			}
+				ensureDateCalculated();
+				int modAmount = amount % 2;
+				if( modAmount < 0)
+				{
+					modAmount = modAmount * -1;
+				}
+
+				if( localDateTime.era == 1)
+				{
+					localDateTime.era = ~modAmount;
+				}
+				else
+				{
+					localDateTime.era = modAmount;
+				}
 
 			//TODO case YEAR: return 1;
 			//TODO case MONTH: return 0;
