@@ -2,7 +2,8 @@ package java.util;
 import com.google.gwt.i18n.client.TimeZone;
 import com.google.gwt.i18n.client.TimeZoneInfo;
 
-class TimeZoneContainer {
+class TimeZoneContainer
+{
 
 	private TimeZone timeZone;
 	private TimeZoneInfo timeZoneInfo;

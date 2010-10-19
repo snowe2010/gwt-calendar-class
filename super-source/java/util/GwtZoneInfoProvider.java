@@ -11,7 +11,7 @@ import com.google.gwt.i18n.client.TimeZone;
 import com.google.gwt.i18n.client.TimeZoneInfo;
 import com.google.gwt.i18n.client.constants.TimeZoneConstants;
 
-//TODO -sf- move this to the src package!
+
 class GwtZoneInfoProvider {
 
     private TimeZoneConstants timeZoneConstants;
