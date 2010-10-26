@@ -289,10 +289,30 @@ public class Calendar implements DateConstants
 				return 1;
 
 
-				//TODO, fix
-
 			case WEEK_OF_MONTH:
-				//TODO, fix
+				ensureDateCalculated();
+				Calendar firstDayOfMonth = Calendar.getInstance(this.timeZone);
+				firstDayOfMonth.setTime(this.getTime());
+				firstDayOfMonth.set(Calendar.DATE, 1);
+				firstDayOfMonth.set(Calendar.HOUR, 0);
+				firstDayOfMonth.set(Calendar.MINUTE, 0);
+				firstDayOfMonth.set(Calendar.SECOND, 0);
+				firstDayOfMonth.set(Calendar.MILLISECOND, 0);
+
+				dayOfTheYear = firstDayOfMonth.get(DAY_OF_WEEK);
+				difference =  getRealFirstDay() - dayOfTheYear;
+
+				if( difference <= 0)
+				{
+					difference = 7 - dayOfTheYear + getRealFirstDay();
+				}
+
+				daysBetween = CalendarUtil.getDaysBetween(firstDayOfMonth.getTime(), calculatedDate);
+				if( daysBetween >= difference)
+				{
+					return ((daysBetween - difference) / 7) + 2;
+				}
+				return 1;
 
 			case DATE:
 				ensureDateCalculated();
