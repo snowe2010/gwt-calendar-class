@@ -164,8 +164,10 @@ public class TimeZone {
 
 	 public String getDisplayname(boolean daylight, int style, Locale locale)
 	{
-		 //TODO, fix
-		 return null;
+		 return getDisplayName(daylight, style);
+
+		 //TODO, if we ever support locales fix this
+		 //return null;
 	 }
 
 	 //returns the time in milliseconds if it's a DST time
