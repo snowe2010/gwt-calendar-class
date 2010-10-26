@@ -25,6 +25,7 @@ public class Calendar implements DateConstants
 	private Date calculatedDate;
 
 	private int minimalDaysInFirstWeek = 1;
+	private boolean lenient = true;
 
 	private Integer overridenTZ = null;
 
@@ -63,6 +64,7 @@ public class Calendar implements DateConstants
 		this.timeZone = timeZone;
 		setTime(date);
 		firstDayOfWeek = 1;
+		lenient = true;
 	}
 
 
@@ -538,8 +540,7 @@ public class Calendar implements DateConstants
 
 	public boolean 	isLenient()
 	{
-		//TODO, fix
-		return false;
+		return lenient;
 	}
 
 	public boolean isSet(int field)
@@ -696,7 +697,7 @@ public class Calendar implements DateConstants
 
 	public void setLenient(boolean lenient)
 	{
-		//TODO, fix
+		this.lenient = lenient;
 	}
 
 	public void setMinimalDaysInFirstWeek(int value)
