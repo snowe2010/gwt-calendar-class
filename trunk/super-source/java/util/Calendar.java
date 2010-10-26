@@ -16,7 +16,7 @@ import com.google.gwt.user.datepicker.client.CalendarUtil;
 public class Calendar implements DateConstants
 {
 
-	private static int firstDayOfWeek;
+	private int firstDayOfWeek;
 
 	private TimeZone timeZone;
 
@@ -62,6 +62,7 @@ public class Calendar implements DateConstants
 	{
 		this.timeZone = timeZone;
 		setTime(date);
+		firstDayOfWeek = 1;
 	}
 
 
@@ -193,6 +194,7 @@ public class Calendar implements DateConstants
 		localDateTime.seconds = 0;
 		localDateTime.milliseconds = 0;
 		overridenTZ = null;
+		firstDayOfWeek = 1;
 
 		needsCalculation = true;
 	}
@@ -208,7 +210,7 @@ public class Calendar implements DateConstants
 			case MONTH: localDateTime.month = 1970;needsCalculation = true;break;
 			case DATE: localDateTime.date = 1;needsCalculation = true;break;
 			case DAY_OF_YEAR: break; //TODO, implement
-			case DAY_OF_WEEK: break; //TODO, implement
+			case DAY_OF_WEEK: firstDayOfWeek = 1; break; //TODO, implement
 			case DAY_OF_WEEK_IN_MONTH: break; //TODO, implement
 			case AM_PM: break; //seems to do nothing, implementing through a break
 			case HOUR: localDateTime.hourOfDay = 0;needsCalculation = true;break;  //TODO, test to make sure this is correct
@@ -261,6 +263,20 @@ public class Calendar implements DateConstants
 				return localDateTime.month;
 
 			case WEEK_OF_YEAR:
+				ensureDateCalculated();
+				Calendar firstDayOfYear = Calendar.getInstance(this.timeZone);
+				firstDayOfYear.setTime(this.getTime());
+				firstDayOfYear.set(Calendar.MONTH, 0);
+				firstDayOfYear.set(Calendar.DATE, 1);
+				firstDayOfYear.set(Calendar.HOUR, 0);
+				firstDayOfYear.set(Calendar.MINUTE, 0);
+				firstDayOfYear.set(Calendar.SECOND, 0);
+				firstDayOfYear.set(Calendar.MILLISECOND, 0);
+				int dayOfTheYear = firstDayOfYear.get(DAY_OF_WEEK);
+
+				int difference =  dayOfTheYear -  getRealFirstDay();
+
+
 				//TODO, fix
 
 			case WEEK_OF_MONTH:
@@ -426,9 +442,7 @@ public class Calendar implements DateConstants
 
 	public int getFirstDayOfWeek()
 	{
-		// Gets what the first day of the week is; e.g., SUNDAY in the U.S., MONDAY in France.
-		//TODO, fix
-		return 0;
+		return firstDayOfWeek;
 	}
 
 	public static Calendar getInstance()
@@ -638,15 +652,7 @@ public class Calendar implements DateConstants
 
 	public void setFirstDayOfWeek(int value)
 	{
-		if( value >= SUNDAY && value <= SATURDAY)
-		{
-			firstDayOfWeek = value;
-		}
-		else
-		{
-			//TODO, see what the jvm does here and emulate, for now throw an exception
-			throw new RuntimeException("bad value passed in");
-		}
+		firstDayOfWeek = value;
 	}
 
 	public void setLenient(boolean lenient)
@@ -738,6 +744,28 @@ public class Calendar implements DateConstants
 	}
 
 
+	private int getRealFirstDay()
+	{
+		if( firstDayOfWeek < 0 || firstDayOfWeek > 7)
+		{
+			if( firstDayOfWeek % 7 == 0)
+			{
+				return 7;
+			}
+
+			if( firstDayOfWeek > 0)
+			{
+
+				return firstDayOfWeek % 7;
+			}
+			else
+			{
+
+				return (firstDayOfWeek % 7) - 7;
+			}
+		}
+		return firstDayOfWeek;
+	}
 
 
 
