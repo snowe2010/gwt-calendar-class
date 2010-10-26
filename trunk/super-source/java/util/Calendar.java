@@ -135,7 +135,9 @@ public class Calendar implements DateConstants
 				break;
 
 			case HOUR:
-				//TODO, fix
+				localDateTime.hourOfDay += amount;
+				needsCalculation = true;
+				break;
 
 			case HOUR_OF_DAY:
 				localDateTime.hourOfDay += amount;
