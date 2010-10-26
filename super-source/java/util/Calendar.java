@@ -274,7 +274,19 @@ public class Calendar implements DateConstants
 				firstDayOfYear.set(Calendar.MILLISECOND, 0);
 				int dayOfTheYear = firstDayOfYear.get(DAY_OF_WEEK);
 
-				int difference =  dayOfTheYear -  getRealFirstDay();
+				int difference =  getRealFirstDay() - dayOfTheYear;
+
+				if( difference <= 0)
+				{
+					difference = 7 - dayOfTheYear + getRealFirstDay();
+				}
+
+				int daysBetween = CalendarUtil.getDaysBetween(firstDayOfYear.getTime(), calculatedDate);
+				if( daysBetween >= difference)
+				{
+					return ((daysBetween - difference) / 7) + 2;
+				}
+				return 1;
 
 
 				//TODO, fix
