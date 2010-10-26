@@ -121,7 +121,8 @@ public class Calendar implements DateConstants
 				break;
 
 			case DAY_OF_WEEK:
-				//TODO, implement
+				localDateTime.date += amount;
+				needsCalculation = true;
 				break;
 
 			case DAY_OF_WEEK_IN_MONTH:
