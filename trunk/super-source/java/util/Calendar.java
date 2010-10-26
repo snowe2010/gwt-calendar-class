@@ -96,10 +96,12 @@ public class Calendar implements DateConstants
 
 			case WEEK_OF_YEAR:
 				localDateTime.date += (amount * 7);
+				needsCalculation = true;
 				break;
 
 			case WEEK_OF_MONTH:
 				localDateTime.date += (amount * 7);
+				needsCalculation = true;
 				break;
 
 			case MONTH:
@@ -114,7 +116,8 @@ public class Calendar implements DateConstants
 
 
 			case DAY_OF_YEAR:
-				//TODO, implement
+				localDateTime.date += amount;
+				needsCalculation = true;
 				break;
 
 			case DAY_OF_WEEK:
@@ -122,7 +125,8 @@ public class Calendar implements DateConstants
 				break;
 
 			case DAY_OF_WEEK_IN_MONTH:
-				//TODO, implement
+				localDateTime.date += (amount * 7);
+				needsCalculation = true;
 				break;
 
 			case AM_PM:
