@@ -346,7 +346,7 @@ public class Calendar implements DateConstants
 
 			case DAY_OF_WEEK_IN_MONTH:
 
-				//TODO, fix
+				return getDay();
 
 
 			case AM_PM: ensureDateCalculated();
@@ -629,7 +629,16 @@ public class Calendar implements DateConstants
 				break;
 
 			case AM_PM:
-				//TODO, implement
+				ensureDateCalculated();
+				if( get(Calendar.AM_PM) > amount)
+				{
+					localDateTime.hourOfDay = 12 * amount + localDateTime.hourOfDay;
+				}
+				else if( get(Calendar.AM_PM) < amount)
+				{
+					localDateTime.hourOfDay = localDateTime.hourOfDay - 12 - (12* amount);
+				}
+
 				break;
 
 			case HOUR:
