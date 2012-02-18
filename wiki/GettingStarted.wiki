@@ -14,7 +14,7 @@ Download the jar and add the following line in your gwt.xml file:
 
 *Warning:*
 
-The jar is in alpha right now, I think core functionality should work fine.  The locale class doesn't have any methods implemented, it's there for compatibility reasons.  If you have any issues please contact me at another.two@gmail.com.  
+The jar is in alpha right now, I think core functionality should work fine.  The locale class doesn't have any methods implemented, it's there for compatibility reasons.  If you have any issues please contact me at artie.motamed@gmail.com.  
 
 Thanks,
 Artie
