@@ -77,6 +77,12 @@ public class Calendar implements DateConstants
 			{
 				throw new IllegalArgumentException("Invalid era");
 			}
+			break;
+			
+			case DAY_OF_WEEK:
+			if( amount < 1 || amount > 7) {
+				throw new IllegalArgumentException("Invalid day");
+			}
 		}
 	}
 
@@ -673,6 +679,12 @@ public class Calendar implements DateConstants
 			case DST_OFFSET:
 				//TODO, fix
 				break;
+				
+			case DAY_OF_WEEK:
+				int day = getDay();
+				int change = amount - day;
+				add( DAY_OF_YEAR, change);
+				
 
 			default:
 				throw new RuntimeException("Field isn't supported yet, or bad value passed in");
