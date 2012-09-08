@@ -1,5 +1,7 @@
 package java.util;
 
+//borrowed heavily from openjdk, here's the link
+//http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/6-b14/java/util/Locale.java
 public class Locale {
 
 	public static final Locale CANADA;
@@ -48,164 +50,148 @@ public class Locale {
 
 	public static Locale defaultLocale;
 
+	static {
 
-	static{
-
-		//TODO, initialize static variable
-
-		CANADA = null;
-		CANADA_FRENCH = null;
-		CHINA = null;
-		CHINESE = null;
-		ENGLISH = null;
-		FRANCE = null;
-		FRENCH = null;
-		GERMAN = null;
-		GERMANY = null;
-		ITALIAN = null;
-		ITALY = null;
-		JAPAN = null;
-		JAPANESE = null;
-		KOREA = null;
-		KOREAN = null;
-		PRC = null;
-		ROOT = null;
-		SIMPLIFIED_CHINESE = null;
-		TAIWAN = null;
-		TRADITIONAL_CHINESE = null;
-		UK = null;
-		US = null;
+		CANADA = createSingleton("en_CA_", "en", "CA");
+		CANADA_FRENCH = createSingleton("fr_CA_", "fr", "CA");
+		CHINA = createSingleton("zh_CN_", "zh", "CN");
+		CHINESE = createSingleton("zh__", "zh", "");
+		ENGLISH = createSingleton("en__", "en", "");
+		FRANCE = createSingleton("fr_FR_", "fr", "FR");
+		FRENCH = createSingleton("fr__", "fr", "");
+		GERMAN = createSingleton("de__", "de", "");
+		GERMANY = createSingleton("de_DE_", "de", "DE");
+		ITALIAN = createSingleton("it__", "it", "");
+		ITALY = createSingleton("it_IT_", "it", "IT");
+		JAPAN = createSingleton("ja_JP_", "ja", "JP");
+		JAPANESE = createSingleton("ja__", "ja", "");
+		KOREA = createSingleton("ko_KR_", "ko", "KR");
+		KOREAN = createSingleton("ko__", "ko", "");
+		PRC = CHINA;
+		ROOT =  createSingleton("__", "", "");
+		SIMPLIFIED_CHINESE =  CHINA;
+		TAIWAN = createSingleton("zh_TW_", "zh", "TW");
+		TRADITIONAL_CHINESE = TAIWAN;
+		UK = createSingleton("en_GB_", "en", "GB");
+		US =  createSingleton("en_US_", "en", "US");
 
 	}
 
-	//constructors
+	// constructors
 
-	public Locale(String language)
-	{
-		//TODO, fix
+	private String language;
+	private String country;
+	private String variant;
+
+	// cache to store singleton Locales
+	private final static Map<String, Locale> cache = new HashMap<String, Locale>(32);
+
+	public Locale(String language) {
+		this(language, "", "");
 	}
 
-	public Locale(String language, String country)
-	{
-		//TODO, fix
+	public Locale(String language, String country) {
+		this(language, country, "");
 	}
 
-	public Locale(String language, String country, String variant)
-	{
-		//TODO, fix
+	public Locale(String language, String country, String variant) {
+		this.language = language;
+		this.country = country;
+		this.variant = variant;
 	}
 
+	// methods
 
-	//methods
-
-
-	public static Locale[] getAvailableLocales()
-	{
-		//TODO, fix
+	public static Locale[] getAvailableLocales() {
+		// TODO, fix
 		return null;
 	}
 
-	public String getCountry()
-	{
-		//TODO, fix
+	public String getCountry() {
+		return country;
+	}
+
+	public static Locale getDefault() {
+		// TODO, fix
 		return null;
 	}
 
-	public static Locale getDefault()
-	{
-		//TODO, fix
+	public String getDisplayCountry() {
+		// TODO, fix
 		return null;
 	}
 
-	public String getDisplayCountry()
-	{
-		//TODO, fix
+	public String getDisplayCountry(Locale inLocale) {
+		// TODO, fix
 		return null;
 	}
 
-	public String getDisplayCountry(Locale inLocale)
-	{
-		//TODO, fix
+	public String getDisplayLanguage() {
+		// TODO, fix
 		return null;
 	}
 
-	public String getDisplayLanguage()
-	{
-		//TODO, fix
+	public String getDisplayLanguage(Locale inLocale) {
+		// TODO, fix
 		return null;
 	}
 
-	public String getDisplayLanguage(Locale inLocale)
-	{
-		//TODO, fix
+	public String getDisplayName() {
+		// TODO, fix
 		return null;
 	}
 
-	public String getDisplayName()
-	{
-		//TODO, fix
+	public String getDisplayName(Locale inLocale) {
+		// TODO, fix
 		return null;
 	}
 
-	public String getDisplayName(Locale inLocale)
-	{
-		//TODO, fix
+	public String getDisplayVariant() {
+		// TODO, fix
 		return null;
 	}
 
-	public String getDisplayVariant()
-	{
-		//TODO, fix
+	public String getDisplayVariant(Locale inLocale) {
+		// TODO, fix
 		return null;
 	}
 
-	public String getDisplayVariant(Locale inLocale)
-	{
-		//TODO, fix
+	public String getISO3Country() {
+		// TODO, fix
 		return null;
 	}
 
-	public String getISO3Country()
-	{
-		//TODO, fix
+	public String getISO3Language() {
+		// TODO, fix
 		return null;
 	}
 
-	public String getISO3Language()
-	{
-		//TODO, fix
+	public static String[] getISOCountries() {
+		// TODO, fix
 		return null;
 	}
 
-	public static String[] getISOCountries()
-	{
-		//TODO, fix
+	public static String[] getISOLanguages() {
+		// TODO, fix
 		return null;
 	}
 
-	public static String[] getISOLanguages()
-	{
-		//TODO, fix
-		return null;
+	public String getLanguage() {
+		return language;
 	}
 
-	public String getLanguage()
-	{
-		//TODO, fix
-		return null;
+	public String getVariant() {
+		return variant;
 	}
 
-	public String getVariant()
-	{
-		//TODO, fix
-		return null;
-	}
-
-	public static void setDefault(Locale newLocale)
-	{
+	public static void setDefault(Locale newLocale) {
 		defaultLocale = newLocale;
 	}
 
-
+	private static Locale createSingleton(String key, String language, String country) {
+		Locale locale = new Locale(language, country);
+		cache.put(key, locale);
+		return locale;
+	}
 
 }
