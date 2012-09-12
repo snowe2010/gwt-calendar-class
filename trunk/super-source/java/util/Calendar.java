@@ -683,9 +683,7 @@ public class Calendar implements DateConstants
 			case DAY_OF_WEEK:
 				int day = getDay();
 				int change = amount - day;
-				if( change != 0 ) {
-					add( DATE, change);
-				}	
+				add( DAY_OF_YEAR, change);
 				break;
 				
 
