@@ -1,17 +1,16 @@
 <project name="gwt-calendar-class" default="jar.calendar" basedir=".">
 
-
+<property file="${basedir}/build.properties"/>
 <property name="build.dir" value="${basedir}/.build"/>
 
+<echo message="Java version: ${java_version}" />
 <target name="clean" description="clean temporary files">
        <delete dir="${build.dir}" includeemptydirs="true" />
     </target>
 
 
-
 <target name="jar.calendar" depends="clean">
 
-	
 
     <copy todir="${build.dir}/gwt-calendar">
       <fileset dir="src/"  />
@@ -21,8 +20,8 @@
       destdir="${build.dir}/gwt-calendar"
       srcdir="${build.dir}/gwt-calendar"
       debug="yes"
-      source="1.5"
-      target="1.5"
+      source="${java_version}"
+      target="${java_version}"
     >
       <classpath>
         <fileset dir="lib">
